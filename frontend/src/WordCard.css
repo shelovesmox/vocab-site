@@ -1,0 +1,39 @@
+.card-container {
+    perspective: 1000px;
+    cursor: pointer;
+  }
+  
+  .card {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
+  }
+  
+  .card-front,
+  .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+  
+  .card-front {
+    background-color: white;
+    z-index: 2;
+  }
+  
+  .card-back {
+    background-color: white;
+    transform: rotateY(180deg);
+  }
+  
+  .flipped .card {
+    transform: rotateY(180deg);
+  }
+
+  .add-btn {
+  }
+  
