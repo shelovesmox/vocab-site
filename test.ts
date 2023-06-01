@@ -1,6 +1,6 @@
 import http from 'http'
 
-http.get("http://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=en&tl=fr&q=hello", (response) => {
+http.get("http://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=en&tl=es&q=I Love Milk", (response) => {
   let data = '';
 
   response.on('data', (chunk) => {

@@ -4,6 +4,8 @@ import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 import { v4 as uuid4 } from "uuid";
 import sqlstring from "sqlstring";
+import { config as dotenvConfig } from "dotenv";
+dotenvConfig()
 
 export async function createWord(req: Request, res: Response) {
   try {
@@ -229,7 +231,7 @@ export async function searchWord(req: Request, res: Response) {
       const wordApiUrl = `https://wordsapiv1.p.rapidapi.com/words/${term}`;
       const response = await fetch(wordApiUrl, {
         headers: {
-          'X-RapidAPI-Key': 'b7fa73238bmsh328ea32c1f75d1fp1ddc3djsn8080f82ce18a',
+          'X-RapidAPI-Key': process.env.wordApi,
           'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
         },
       });

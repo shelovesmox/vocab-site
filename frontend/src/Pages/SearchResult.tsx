@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 
 interface SearchRequestResult {
   pronunciation: {
-    all: string;
+    all?: string;
   };
   results: SearchResult[];
   syllables: Object;
@@ -78,7 +78,7 @@ const SearchResultPage: React.FC = () => {
                 key={result.definition}
                 term={term as string}
                 meaning={result.definition}
-                phonetic={searchResults.pronunciation.all as string}
+                phonetic={searchResults.pronunciation?.all as string || "No Pronunciation"}
                 examples={result.examples}
               />
             ))}
