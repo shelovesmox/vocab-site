@@ -22,7 +22,7 @@ const WordCard: React.FC<WordCardProps> = ({ term, meaning, phonetic, examples }
   };
 
   return (
-    <div className={`card-container pb-10 w-[23rem] md:w-[40rem] xl:w-[40rem] lg:w-[40rem] h-[25rem] md:h-[32rem] lg:h-[20rem] xl:h-[32rem] ${isFlipped ? "flipped" : ""}`}>
+    <div className={`card-container pb-10 w-[23rem] md:w-[40rem] xl:w-[40rem] lg:w-[40rem] h-[32rem] md:h-[32rem] lg:h-[20rem] xl:h-[32rem] ${isFlipped ? "flipped" : ""}`}>
       <div className="card hover:scale-105">
         <div className="card-front flex flex-col rounded-md drop-shadow-md shadow-black" onClick={flipCard}>
           <div className="translate flex w-full h-8 justify-end gap-7 items-center">
@@ -45,7 +45,7 @@ const WordCard: React.FC<WordCardProps> = ({ term, meaning, phonetic, examples }
           </ul>
           <div className="word-list-btn flex flex-1 items-end justify-between pt-8 w-full">
           <div className="bg-[#547CF3] rounded-full w-7 h-7 mb-2 ml-2"></div>
-          <button className="wordlist bg-[#547CF3] pl-10 pr-10 pt-2 pb-2 rounded-md mb-2">Add To Wordlist</button>
+          <button className="wordlist text-white font-bold bg-[#547CF3] pl-10 pr-10 pt-2 pb-2 rounded-md mb-2 skip-flip hover:cursor-pointer hover:bg-[#3a6bfc]">Add To Wordlist</button>
           <div className="bg-[#547CF3] rounded-full w-7 h-7 mb-2 mr-2"></div>
           </div>
         </div>

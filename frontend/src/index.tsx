@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   {
     path: "/search/:term",
     element: <SearchResultPage></SearchResultPage>
-  }
+  },
 ]);
 
 

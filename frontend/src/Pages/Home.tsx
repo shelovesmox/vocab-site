@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import WordCard from '../components/WordCard';
+import 'animate.css'
 
 interface WordApiResult {
   word: string;

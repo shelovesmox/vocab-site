@@ -61,14 +61,6 @@ const SearchResultPage: React.FC = () => {
       <div>
         <h2>Search Results for "{term}"</h2>
         <div className="word-card-container flex items-center flex-col gap-10 w-full min-h-screen">
-          {/* {searchResults.map((result: SearchResult) => (
-                  <WordCard
-                      key={result.uuid}
-                      term={result.term}
-                      meaning={result.meaning}
-                      phonetic={result.phonetic}
-                      examples={result.examples} />
-              ))} */}
 
           {!searchResults && <h2>No search results for {term}</h2>}
 

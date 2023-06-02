@@ -10,9 +10,19 @@
  font-display: swap;
 }
 
+.animate__animated {
+  --animate-duration: 0.3s;
+}
 
+
+body::-webkit-scrollbar {
+  display: none;
+}
 
 html, body {
+ 
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
   overflow-x: hidden;
   background-color: #F5F5F5;
   margin: 0;
