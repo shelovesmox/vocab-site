@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import Decor from "../images/TextDecor.svg";
 import LoginGraphic from "../images/LoginGraphic.svg";
-import Vector from "../images/Vector.svg"
+import Vector from "../images/Vector.svg";
 // NavItem Component
 interface NavItemProps {
   label: string;
@@ -29,6 +29,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [animationClass, setAnimationClass] = useState("");
   const [modalType, setModalType] = useState<"login" | "register">("login");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleVisibility = (type: "login" | "register") => {
     setIsOpen(true);
@@ -50,6 +51,51 @@ const Navbar: React.FC = () => {
     setSearchTerm("");
   };
 
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setErrorMessage("");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("http://localhost:8080/auth/v1/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        console.log("Login successful!");
+        navigate("/"); 
+      } else if (response.status == 404) {
+        setErrorMessage("Invalid Credentials");
+
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+
+      } else if (response.status == 429) {
+        
+        setErrorMessage("Slow down, Too Many Requests");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+      } else if (response.status == 401) {
+        setErrorMessage("Invalid Password");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <>
       {isOpen && (
@@ -67,15 +113,79 @@ const Navbar: React.FC = () => {
             </div>
           </div>
           {modalType === "login" && (
-            <div className="flex-1 flex justify-end bg-white">
-              <div className="login-content">Login Content...</div>
-              <IoMdClose
-                size={40}
-                onMouseOver={(e: any) =>
-                  ((e.target as HTMLElement).style.cursor = "pointer")
-                }
-                onClick={slideUp}
-              />
+            <div className="flex-1 flex flex-col bg-white">
+              <div className="close-btn justify-end w-full items-center flex">
+                <IoMdClose
+                  size={40}
+                  onMouseOver={(e: any) =>
+                    ((e.target as HTMLElement).style.cursor = "pointer")
+                  }
+                  onClick={slideUp}
+                />
+              </div>
+              <div className="register-login-switch flex-col pt-12 pl-5 flex">
+                <div className="switches flex gap-3">
+                  <div className="register hover:scale-110 transition duration-75 hover:cursor-pointer gap-1 flex flex-col items-center font-black text-xl">
+                    Register
+                  </div>
+                  <div className="login hover:scale-110 transition duration-75 hover:cursor-pointer items-center gap-1 flex flex-col font-black text-xl">
+                    Login
+                    <img
+                      className="justify-self-start w-[10rem]"
+                      src={Decor}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="register-form flex flex-col items-center justify-center w-full h-screen">
+                <form onSubmit={handleFormSubmit} className="w-full max-w-md">
+                  <div className="flex items-center justify-center w-full">
+                    {errorMessage && (
+                      <p className="text-red-500 mb-2 rounded-sm  bg-transparent w-72 text-center font-medium">
+                        {errorMessage}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col mb-4 font-bold">
+                    <label className="mb-2" htmlFor="email">
+                      Email:
+                    </label>
+                    <input
+                      className="border-2 border-[#6085f3] rounded-sm px-3 py-2"
+                      type="email"
+                      id="email"
+                      placeholder="vocabrocks123@vocab.com"
+                      name="email"
+                      required
+                    />
+                  </div>
+                  <div className="flex flex-col mb-4 font-bold">
+                    <label className="mb-2" htmlFor="password">
+                      Password:
+                    </label>
+                    <input
+                      className="border-2 border-[#6085f3] rounded-sm px-3 py-2"
+                      type="password"
+                      id="password"
+                      placeholder="vocabrocks123"
+                      name="password"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <button
+                      className="bg-[#6085f3] hover:bg-[#547CF3] hover:bg-blue- text-white w-full font-bold py-2 px-4 rounded"
+                      type="submit"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div className="flex flex-1 w-full h-96 justify-end items-end">
+                <img className="" src={Vector} alt="" />
+              </div>
             </div>
           )}
           {modalType === "register" && (
@@ -169,7 +279,7 @@ const Navbar: React.FC = () => {
                 </form>
               </div>
               <div className="flex flex-1 w-full h-96 justify-end items-end">
-                  <img className="" src={Vector} alt="" />
+                <img className="" src={Vector} alt="" />
               </div>
             </div>
           )}

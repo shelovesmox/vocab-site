@@ -10,9 +10,14 @@ import wordRouter from "./routes/words";
 import { config as dotenvConfig } from "dotenv";
 import likesRouter from "./routes/likes";
 import cors from 'cors';
+import rateLimit  from "express-rate-limit";
 dotenvConfig();
 
-// todo: change defRouter to wordRouter
+const limiter = rateLimit({
+  windowMs: 20000, // 20 seconds
+  max: 50,
+  message: "Too many requests from this IP, please try again after 20 seconds."
+})
 
 
 const secret = process.env.sessionSecret
@@ -23,6 +28,7 @@ const dbname = process.env.dbname
 
 const app: Express = express();
 app.use(cors())
+app.use(limiter)
 app.use(express.json());
 app.use('/auth/v1', authRouter)
 app.use('/api/v1/', wordRouter)

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import WordCard from '../components/WordCard';
-import 'animate.css'
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/Navbar";
+import WordCard from "../components/WordCard";
+import "animate.css";
 
 interface WordApiResult {
   word: string;
@@ -23,28 +23,34 @@ const Home: React.FC = () => {
   const [wordsData, setWordsData] = useState<WordData[]>([]);
 
   const fetchWordDetails = async (word: string) => {
-    const response = await fetch(`https://wordsapiv1.p.rapidapi.com/words/${word}`, {
-      headers: {
-        'X-RapidAPI-Key': 'b7fa73238bmsh328ea32c1f75d1fp1ddc3djsn8080f82ce18a',
-        'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
+    const response = await fetch(
+      `https://wordsapiv1.p.rapidapi.com/words/${word}`,
+      {
+        headers: {
+          "X-RapidAPI-Key":
+            "b7fa73238bmsh328ea32c1f75d1fp1ddc3djsn8080f82ce18a",
+          "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
+        },
       }
-    });
+    );
 
     if (!response.ok) {
-      console.error(`Error fetching data for word ${word}: ${response.statusText}`);
+      console.error(
+        `Error fetching data for word ${word}: ${response.statusText}`
+      );
       return;
     }
 
     const data: WordApiResult = await response.json();
-    console.log(data)
+    console.log(data);
 
-    const examples = data.results.map(result => result.examples).flat();
+    const examples = data.results.map((result) => result.examples).flat();
 
     return {
       term: data.word,
       meaning: data.results[0].definition,
-      phonetic: data.pronunciation.all || '',
-      examples
+      phonetic: data.pronunciation.all || "",
+      examples,
     };
   };
 
@@ -52,9 +58,11 @@ const Home: React.FC = () => {
     const words = ["jeans", "rock", "truck", "home", "tomalley ", "pumpkin"];
 
     const fetchData = async () => {
-      const wordDetailsPromises = words.map(word => fetchWordDetails(word));
+      const wordDetailsPromises = words.map((word) => fetchWordDetails(word));
       const resolvedWordDetails = await Promise.all(wordDetailsPromises);
-      const filteredWordDetails = resolvedWordDetails.filter(Boolean) as WordData[];
+      const filteredWordDetails = resolvedWordDetails.filter(
+        Boolean
+      ) as WordData[];
       setWordsData(filteredWordDetails);
     };
 
